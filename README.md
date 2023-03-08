@@ -2,14 +2,25 @@
 
 ## PS-SUPPORTAL
 ---
+In this guide:  
+* [About](https://github.com/ma2valadez/supportal_dev#about)
+* [Configuration](https://github.com/ma2valadez/supportal_dev#configuration)  
+* [Useful Documentation](https://github.com/ma2valadez/supportal_dev#useful-documentation)
+* [Database Configuration](https://github.com/ma2valadez/supportal_dev#database-documentation)
+* [Database Initialization](https://github.com/ma2valadez/supportal_dev#database-initialization)
+* [Services](https://github.com/ma2valadez/supportal_dev#services)
+* [Deployment Instructions](https://github.com/ma2valadez/supportal_dev#deployment-instructions)
 
+---
+### About
+---
 This is an application for use within **Firstup, Inc.** The purpose of this application is to streamline support functions and make API and DB driven events easier to perform.
 
 * Ruby Version : `3.1.2p20 [x86_64-linux]`
 
 * System Dependencies : `sqlite3.8+, nginx1, passenger, rails 7.0.4.2, bundler, nodejs, linbuv, curl, git, gcc, postgresql-devel, postgresql-libs, posgresql11`
 ---
-### Configuration `[TODO]` - ***make deploy script***
+### Configuration
 ---
 
 
@@ -130,10 +141,21 @@ For this configuration, I am using **CENTOS/AWS Linux 2 AMI** syntax. If you are
 **Ruby on Rails Guides** - [Getting Started with Rails](https://guides.rubyonrails.org/getting_started.html)
 
 ---
-* Database creation `[TODO]`
+### Database Creation
 ---
-* Database initialization `[TODO]`
+ `[TODO]`
+
 ---
-* Services `[TODO]` (job queues, cache servers, search engines, etc.)
+### Database Initialization
 ---
-* Deployment instructions `[TODO]`
+ `[TODO]`
+
+---
+### Services 
+---
+`[TODO]` (job queues, cache servers, search engines, etc.)
+
+---
+### Deployment Instructions
+---
+ `[TODO]`
