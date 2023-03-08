@@ -9,11 +9,16 @@ This is an application for use within **Firstup, Inc.** The purpose of this appl
 
 * System Dependencies : `sqlite3.8+, nginx1, passenger, rails 7.0.4.2, bundler, nodejs, linbuv, curl, git, gcc, postgresql-devel, postgresql-libs, posgresql11`
 ---
-### Configuration 
+### Configuration `[TODO]` - ***make deploy script***
 ---
-`[TODO]` - ***make deploy script***
 
-To setup your own workstation, I would suggest [*AWS Linux 2 AMI*](https://aws.amazon.com/amazon-linux-2/?amazon-linux-whats-new.sort-by=item.additionalFields.postDateTime&amazon-linux-whats-new.sort-order=desc). You can setup a machine with free tier for learning purposes. Alternatively, Firstup may provide one to you. Please ensure you also have AWS SSO access as well to access the Supporal machine. For this configuration, I am using **CENTOS/AWS Linux 2 AMI** syntax. If you are using a different distro, you will need to change your configuration.
+
+To setup your own workstation, I would suggest [*AWS Linux 2 AMI*](https://aws.amazon.com/amazon-linux-2/?amazon-linux-whats-new.sort-by=item.additionalFields.postDateTime&amazon-linux-whats-new.sort-order=desc). You can setup a machine with free tier for learning purposes. 
+
+Alternatively, Firstup may provide access to the supportal machine. In which case, **you do not need to follow the steps outlined below**. Please ensure you also have AWS SSO access as well to access the Supporal machine. 
+
+---
+For this configuration, I am using **CENTOS/AWS Linux 2 AMI** syntax. If you are using a different distro, you will need to change your configuration.
 
 #### **Create User**  
 `$adduser {name}`  
