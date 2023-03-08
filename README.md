@@ -6,7 +6,7 @@ In this guide:
 * [About](https://github.com/ma2valadez/supportal_dev#about)
 * [Configuration](https://github.com/ma2valadez/supportal_dev#configuration)  
 * [Useful Documentation](https://github.com/ma2valadez/supportal_dev#useful-documentation)
-* [Database Configuration](https://github.com/ma2valadez/supportal_dev#database-documentation)
+* [Database Creation](https://github.com/ma2valadez/supportal_dev#database-creation)
 * [Database Initialization](https://github.com/ma2valadez/supportal_dev#database-initialization)
 * [Services](https://github.com/ma2valadez/supportal_dev#services)
 * [Deployment Instructions](https://github.com/ma2valadez/supportal_dev#deployment-instructions)
