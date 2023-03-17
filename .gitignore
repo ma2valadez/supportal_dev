@@ -39,3 +39,6 @@ db/test.*
 
 # Ignore Spring files.
 /spring/*.pid
+
+# Ignore Credentials
+/config/credentials.yml.enc
