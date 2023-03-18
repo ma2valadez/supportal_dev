@@ -1,1 +1,4 @@
-# empty
+michael:
+  name: Michael Valadez
+  email: michael.valadez@firstup.io
+  password_digest: <%= User.digest('password') %>
