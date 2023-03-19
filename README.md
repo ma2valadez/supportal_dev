@@ -13,15 +13,15 @@ In this guide:
 * [Deployment Instructions](https://github.com/ma2valadez/supportal_dev#deployment-instructions)
 
 ---
-### About
+### **About**
 ---
 This is an application for use within **Firstup, Inc.** The purpose of this application is to streamline support functions and make API and DB driven events easier to perform.
 
 * Ruby Version : `3.1.2p20 [x86_64-linux]`
 
-* System Dependencies : `sqlite3.8+, nginx1, passenger, rails 7.0.4.2, bundler, nodejs, linbuv, curl, git, gcc, postgresql-devel, postgresql-libs, posgresql11`
+* System Dependencies : `sqlite3.8+, nginx1, passenger, rails 7.0.4.2, bundler, nodejs, linbuv, curl, git, gcc, postgresql-devel, postgresql-libs, posgresql13`
 ---
-### Configuration
+### **Configuration**
 ---
 
 
@@ -100,7 +100,7 @@ $ ifsudo grep -q secure_path /etc/sudoers; thensudo sh -c "echo export rvmsudo_s
 ```
 $ sudo yum update -y  
 $ sudo yum install curl git gcc postgresql-devel postgresql-libs -y make -y  
-$ sudo amazon-linux-extras install nginx1 posgresql11 -y
+$ sudo amazon-linux-extras install nginx1 posgresql13 -y
 ```  
 
 #### **Customize Hostname**
@@ -195,7 +195,7 @@ $ sudo yum install sqlite-3.8.11-1.fc21.x86_64.rpm sqlite-devel-3.8.11-1.fc21.x8
 ```  
 
 ---
-### Useful Documentation
+### **Useful Documentation**
 ---
 **RVM** - [Ruby Version Manager (RVM)](https://rvm.io/)  
 **Amazon Linux 2** - [Amazon Linux 2 Overview](https://https://aws.amazon.com/amazon-linux-2/?amazon-linux-whats-new.sort-by=item.additionalFields.postDateTime&amazon-linux-whats-new.sort-order=desc)  
@@ -205,7 +205,7 @@ $ sudo yum install sqlite-3.8.11-1.fc21.x86_64.rpm sqlite-devel-3.8.11-1.fc21.x8
 
 
 ---
-### Getting Started
+### **Getting Started**
 ---
 
 
@@ -236,21 +236,80 @@ $ rails server
 ```
 
 ---
-### Database Creation
+### **Database Creation**
 ---
- `[TODO]`
+**Note:** Only applicable if you intend on running a production database on your machine or remotely. Use SQLite3 for both development and test, as it is easier to manage.
+
+Make sure your packages are up to date:
+```
+$ sudo yum update -y
+```
+Install Postgres:
+```
+$ sudo yum install postgresql postgresql-server postgresql-devel postgresql-contrib -y
+```
+---
+### **Database Initialization**
+---
+Initialize the database:
+```
+$ sudo service postgresql initdb
+```
+Start the database:
+```
+$ sudo service postgresql start
+```
+Enable the database to start at boot:
+```
+$ sudo chkconfig postgresql on
+```
+Create a new database user:
+```
+$ sudo -u postgres creatuser <username>
+```
+Set a password for the new user:
+```
+$ sudo -u postgres psql
+\password <username>
+```
+Enter the new password when prompted.
+Create a new database:
+```
+$ sudo -u postgres createdb <database_name>
+```
+Grant privileges to the new user:
+```
+$ sudo -u postgres psql
+> grant all privileges on database <database_name> to <username>;
+```
+
+To connect to the database from your Ruby on Rails project, you'll need to install the pg gem and configure your database.yml file with the database information.
+
+Here's an example of how to configure the database.yml file:
+
+```
+production:
+  adapter: postgresql
+  database: <database_name>
+  host: <database_host>
+  port: <database_port>
+  username: <database_username>
+  password: <database_password>
+  pool: 5
+  timeout: 5000
+```
+Replace <database_name>, <database_host>, <database_port>, <database_username>, and <database_password> with your own values.
+
+Once you have the database and user set up, you can run your Ruby on Rails project in production and it should be able to connect to the Postgres database.
+
+***Note:*** The Supportal database.yml is already configured in this repo! 
 
 ---
-### Database Initialization
----
- `[TODO]`
-
----
-### Services 
+### **Services** 
 ---
 `[TODO]` (job queues, cache servers, search engines, etc.)
 
 ---
-### Deployment Instructions
+### **Deployment Instructions**
 ---
  `[TODO]`
