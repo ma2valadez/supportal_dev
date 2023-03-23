@@ -39,3 +39,4 @@ db/test.*
 
 # Ignore Spring files.
 /spring/*.pid
+/config/credentials/production.key
