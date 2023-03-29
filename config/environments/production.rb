@@ -76,7 +76,7 @@ Rails.application.configure do
     :port           => 587,
     :authentication => :plain,
     :user_name      => 'apikey',
-    :password       => ENV["SENDGRID_API_KEY"],
+    :password       => Rails.application.credentials.SENDGRID_API_KEY,
     :domain         => 'supdev.io',
     :enable_starttls_auto => true
   }
