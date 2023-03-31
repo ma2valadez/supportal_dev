@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'protected_pages/show'
   get 'password_resets/new'
   get 'password_resets/edit'
   get 'sessions/new'
@@ -9,6 +10,7 @@ Rails.application.routes.draw do
   get    "/contact",  to: "static_pages#contact"
   get    "/signup",   to: "users#new"
   get    "/login",    to: "sessions#new"
+  get    "/welcome",  to: "protected_pages#show"
   post   "/login",    to: "sessions#create"
   delete "/logout",   to: "sessions#destroy"
   resources :users

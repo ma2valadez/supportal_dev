@@ -257,3 +257,69 @@ input {
     border-bottom: 1px solid $gray-lighter;
   }
 }
+
+/* Tiles */
+
+.tiles-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30vh;
+  flex-wrap: wrap; /* Add wrap */
+  flex-direction: row; /* Set default direction */
+}
+
+.tile {
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  margin: 50px;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  flex: 1 1 200px;
+}
+
+.tile:hover .overlay {
+  opacity: 1;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.overlay p {
+  color: white;
+  font-size: 24px;
+  margin: 0;
+}
+
+#firstup {
+  background-image: url('firstup.png');
+}
+
+#dynamic {
+  background-image: url('dynamic.png');
+}
+
+#reporting {
+  background-image: url('reporting.png');
+}
+
+@media screen and (max-width: 600px) {
+  .tiles-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}

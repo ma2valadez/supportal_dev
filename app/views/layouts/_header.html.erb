@@ -1,6 +1,10 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
+    <% if logged_in? %>
+    <%= link_to "supportal v1.0", welcome_path, id: "logo" %>
+    <% else %>
     <%= link_to "supportal v1.0", root_path, id: "logo" %>
+    <% end %>
     <nav>
       <div class="navbar-header">
         <button id="hamburger" type="button" class="navbar-toggle collapsed">
@@ -13,9 +17,9 @@
       <ul id="navbar-menu"
           class="nav navbar-nav navbar-right collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li><%= link_to "Home", root_path %></li>
-          <li><%= link_to "Help", help_path %></li>
           <% if logged_in? %>
+            <li><%= link_to "Home", welcome_path %></li>
+            <li><%= link_to "Help", help_path %></li>
             <li><%= link_to "Users", users_path %></li>
             <li class="dropdown">
               <a href="#" id="account" class="dropdown-toggle">
@@ -32,6 +36,8 @@
               </ul>
             </li>
           <% else %>
+            <li><%= link_to "Home", root_path %></li>
+            <li><%= link_to "Help", help_path %></li>
             <li><%= link_to "Log in", login_path %></li>
           <% end %>
         </ul>
