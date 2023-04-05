@@ -50,6 +50,7 @@ class ProtectedPagesController < ApplicationController
   
     if response.code.to_i == 200
       data = JSON.parse(response.body)
+      data = [data] unless data.is_a?(Array)
       csv_data = CSV.generate(headers: true) do |csv|
         csv << data.first.keys
         data.each do |row|
