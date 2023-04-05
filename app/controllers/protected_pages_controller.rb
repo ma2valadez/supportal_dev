@@ -33,25 +33,43 @@ class ProtectedPagesController < ApplicationController
       includes = includes.join(",") if includes.present?
     end
   
-    url = "https://#{subdomain}.#{domain}.com/v1/manage/groups/#{id}/users"
+    url = "https://#{subdomain}.#{domain}/v1/manage/groups/#{id}/users"
     url += "?include=#{includes}" if includes.present?
     
     response = HTTParty.get(url, headers: { "Authorization" => "Bearer #{api_key}" }, verify: false)
 
     if response.success?
       csv_data = CSV.generate do |csv|
-        JSON.parse(response.body).each do |record|
-          csv << record.values
+        csv << response["users"].first.keys
+          response["users"].each do |user|
+            csv << user.values
         end
       end
-      send_data csv_data, filename: "users.csv", type: " text/csv", disposition: "attachment"
-      flash[:notice] = "CSV file generated successfully!"
-      redirect_to action: "get_users", notice: "CSV file generated successfully!"
+
+      # send_data csv_data, 
+      #           type: 'text/csv',
+      #           disposition: "attachment; filename=users.csv"
+      flash[:success] = "CSV file generated successfully!"
+
+      # Save the CSV data to a session variable
+      session[:csv_data] = csv_data
+      redirect_to download_users_path
     else
       flash[:error] = "There was an error generating the CSV file"
-      redirect_to action: "get_users", notice: "CSV error"
+      redirect_to :back
     end
+  rescue StandardError => e
+    flash[:error] = "There was an error downloading user data: #{e.message}"
+    redirect_to :back
   end
+end
+
+def download_file
+  # Retrieve the CSV data from the session variable
+  csv_data = session[:csv_data]
+
+  # Create a link to download the CSV file
+  send_data csv_data, filename: 'users.csv', type: 'text/csv', disposition: 'attachment'
 end
   
 
