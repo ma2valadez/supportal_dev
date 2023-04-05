@@ -1,4 +1,3 @@
-require 'csv'
 require 'httparty'
 
 class ProtectedPagesController < ApplicationController
@@ -11,7 +10,7 @@ class ProtectedPagesController < ApplicationController
   end
 
   def get_users
-    @endpoints = ['Affiliations', 'Channels', 'Images', 'ScheduleSettings']
+    @endpoints = ['Affiliations', 'Channels', 'Images', 'ScheduleSettings', 'idsOnly']
   end
 
   def download_users
@@ -39,35 +38,31 @@ class ProtectedPagesController < ApplicationController
     response = HTTParty.get(url, headers: { "Authorization" => "Bearer #{api_key}" }, verify: false)
 
     if response.success?
-      csv_data = CSV.generate do |csv|
-        csv << response["users"].first.keys
-          response["users"].each do |user|
-            csv << user.values
+      # Parse the JSON response into a hash
+      parsed_response = JSON.parse(response.body)
+
+      # Open a CSV file for writing and write the header row
+      CSV.open('users.csv', 'wb') do |csv|
+        csv << [:id, :display_name, :full_name, :first_name, :last_name, :status, :email, :sso_id]
+
+        # Loop through each user and write a row to the CSV file
+        parsed_response['users'].each do |user|
+          csv << [user['id'], user['displayName'], user['fullName'], user['firstName'], user['lastName'], user['status'],
+                  user['email'], user['externalSsoUserId']]
         end
       end
 
       flash[:success] = "CSV file generated successfully!"
-
-      # send_data csv_data, filename: "users.csv", type: "text/csv", disposition: "attachment", :layout => false
-      session[:csv_data] = csv_data
-      redirect_to download_users_path
+      send_data csv_data, filename: "users.csv", type: "text/csv", disposition: "attachment", :layout => false
+      return
     else
-      flash[:error] = "There was an error generating the CSV file"
-      # redirect_to get_users
+      flash[:danger] = "There was an error generating the CSV file"
+      redirect_to scripts_dynamic_get_users_url
     end
-  rescue StandardError => e
-    flash[:error] = "There was an error downloading user data: #{e.message}"
-    # redirect_to get_users
-  end
-
-  def download_file
-    # Retrieve the CSV data from the session variable
-    csv_data = session[:csv_data]
-  
-    # Create a link to download the CSV file
-    send_data csv_data, filename: 'users.csv', type: 'text/csv', disposition: 'attachment', :layout => false
-  end
-
+  # rescue StandardError => e
+  #   flash[:error] = "There was an error downloading user data: #{e.message}"
+  #   redirect_to scripts_dynamic_get_users_url
+  # end
 end
 
 

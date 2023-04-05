@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   get    "/scripts/dynamic",                     to: "protected_pages#dynamic"
   
   get    "/scripts/dynamic/get_users",           to: "protected_pages#get_users"
-  post   "/protected/download_users",      to: "protected_pages#download_users"
+  get    "/protected_pages/download_users",           to: "protected_pages#download_users"
 
   post   "/login",                               to: "sessions#create"
   delete "/logout",                              to: "sessions#destroy"
