@@ -10,13 +10,11 @@ class ProtectedPagesController < ApplicationController
   def dynamic
   end
 
-  # def get_users
-  #   @endpoints = ['Affiliations', 'Channels', 'Images', 'ScheduleSettings']
-  #   flash.alert = params[:alert] if params[:alert]
-  #   flash.notice = params[:notice] if params[:notice]
-  # end
-
   def get_users
+    @endpoints = ['Affiliations', 'Channels', 'Images', 'ScheduleSettings']
+  end
+
+  def download_users
     domain = params[:domain]
     subdomain = params[:subdomain]
     api_key = params[:api_key]
@@ -49,20 +47,17 @@ class ProtectedPagesController < ApplicationController
     response = http.request(request)
   
     if response.code.to_i == 200
-      data = JSON.parse(response.body)
-      data = [data] unless data.is_a?(Array)
-      csv_data = CSV.generate(headers: true) do |csv|
-        csv << data.first.keys
-        data.each do |row|
-          csv << row.values
+      csv_data = CSV.generate do |csv|
+        JSON.parse(response.body).each do |record|
+          csv << record.values
         end
       end
-      send_data csv_data, filename: "users.csv"
+      send_data csv_data, filename: "users.csv", type: " text/csv", disposition: "attachment"
       flash[:notice] = "CSV file generated successfully!"
       redirect_to action: "get_users", notice: "CSV file generated successfully!"
     else
       flash[:alert] = "There was an error generating the CSV file"
-      redirect_to action: "get_users", alert: "There was an error generating the CSV file"
+      redirect_to action: "get_users", notice: "CSV error"
     end
   end
 end
