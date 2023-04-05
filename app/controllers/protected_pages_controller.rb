@@ -1,5 +1,5 @@
 require 'csv'
-require 'HTTParty'
+require 'httparty'
 
 class ProtectedPagesController < ApplicationController
   before_action :logged_in_user
@@ -33,10 +33,10 @@ class ProtectedPagesController < ApplicationController
       includes = includes.join(",") if includes.present?
     end
   
-    url = "https://#{sub_domain}.#{domain}.com/v1/manage/groups/{id}/users"
+    url = "https://#{subdomain}.#{domain}.com/v1/manage/groups/#{id}/users"
     url += "?include=#{includes}" if includes.present?
     
-    response = HTTParty.get(api_url, headers: { "Authorization" => "Bearer #{api_key}" })
+    response = HTTParty.get(url, headers: { "Authorization" => "Bearer #{api_key}" })
 
     if response.success?
       csv_data = CSV.generate do |csv|
