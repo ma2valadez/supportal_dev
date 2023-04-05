@@ -36,7 +36,7 @@ class ProtectedPagesController < ApplicationController
     url = "https://#{subdomain}.#{domain}.com/v1/manage/groups/#{id}/users"
     url += "?include=#{includes}" if includes.present?
     
-    response = HTTParty.get(url, headers: { "Authorization" => "Bearer #{api_key}" })
+    response = HTTParty.get(url, headers: { "Authorization" => "Bearer #{api_key}" }, verify: false)
 
     if response.success?
       csv_data = CSV.generate do |csv|
