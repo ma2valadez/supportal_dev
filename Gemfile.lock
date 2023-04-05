@@ -119,6 +119,9 @@ GEM
     guard-minitest (2.4.6)
       guard-compat (~> 1.2)
       minitest (>= 3.0)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     importmap-rails (1.1.0)
@@ -153,6 +156,7 @@ GEM
       minitest (>= 5.0)
       ruby-progressbar
     msgpack (1.6.1)
+    multi_xml (0.6.0)
     nenv (0.3.0)
     net-imap (0.3.4)
       date
@@ -288,6 +292,7 @@ DEPENDENCIES
   faker (= 2.21.0)
   guard (= 2.18.0)
   guard-minitest (= 2.4.6)
+  httparty (= 0.21.0)
   importmap-rails (= 1.1.0)
   jbuilder (= 2.11.5)
   minitest (= 5.15.0)

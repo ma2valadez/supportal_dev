@@ -5,6 +5,7 @@ ruby "3.1.2"
 
 gem "rails",                   "7.0.4.2"
 gem "bcrypt",                  "3.1.18"
+gem "httparty",                "0.21.0"
 gem "faker",                   "2.21.0"
 gem "will_paginate",           "3.3.1"
 gem "bootstrap-will_paginate", "1.0.0"
