@@ -14,7 +14,6 @@ class ProtectedPagesController < ApplicationController
     @endpoints = ['Affiliations', 'Channels', 'Images', 'ScheduleSettings']
     flash.alert = params[:alert] if params[:alert]
     flash.notice = params[:notice] if params[:notice]
-    # render "protected_pages/get_users.html.erb"
   end
 
   def download_users
@@ -28,10 +27,12 @@ class ProtectedPagesController < ApplicationController
     if params[:idsOnly] == "true"
       includes = ["idsOnly"]
     else
+      includes = []
       includes << "Affiliations" if params[:Affiliations] == "true"
       includes << "Channels" if params[:Channels] == "true"
       includes << "Images" if params[:Images] == "true"
       includes << "ScheduleSettings" if params[:ScheduleSettings] == "true"
+      includes = includes.join(",") if includes.present?
     end
   
     url = "https://#{subdomain}.#{domain}/v1/manage/groups/#{id}/users"
