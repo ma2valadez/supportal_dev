@@ -46,30 +46,30 @@ class ProtectedPagesController < ApplicationController
         end
       end
 
-      # send_data csv_data, 
-      #           type: 'text/csv',
-      #           disposition: "attachment; filename=users.csv"
       flash[:success] = "CSV file generated successfully!"
 
-      # Save the CSV data to a session variable
+      # send_data csv_data, filename: "users.csv", type: "text/csv", disposition: "attachment", :layout => false
       session[:csv_data] = csv_data
       redirect_to download_users_path
     else
       flash[:error] = "There was an error generating the CSV file"
-      redirect_to :back
+      # redirect_to get_users
     end
   rescue StandardError => e
     flash[:error] = "There was an error downloading user data: #{e.message}"
-    redirect_to :back
+    # redirect_to get_users
   end
+
+  def download_file
+    # Retrieve the CSV data from the session variable
+    csv_data = session[:csv_data]
+  
+    # Create a link to download the CSV file
+    send_data csv_data, filename: 'users.csv', type: 'text/csv', disposition: 'attachment', :layout => false
+  end
+
 end
 
-def download_file
-  # Retrieve the CSV data from the session variable
-  csv_data = session[:csv_data]
 
-  # Create a link to download the CSV file
-  send_data csv_data, filename: 'users.csv', type: 'text/csv', disposition: 'attachment'
-end
   
 
