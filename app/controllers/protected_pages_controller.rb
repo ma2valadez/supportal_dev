@@ -10,13 +10,13 @@ class ProtectedPagesController < ApplicationController
   def dynamic
   end
 
-  def get_users
-    @endpoints = ['Affiliations', 'Channels', 'Images', 'ScheduleSettings']
-    flash.alert = params[:alert] if params[:alert]
-    flash.notice = params[:notice] if params[:notice]
-  end
+  # def get_users
+  #   @endpoints = ['Affiliations', 'Channels', 'Images', 'ScheduleSettings']
+  #   flash.alert = params[:alert] if params[:alert]
+  #   flash.notice = params[:notice] if params[:notice]
+  # end
 
-  def download_users
+  def get_users
     domain = params[:domain]
     subdomain = params[:subdomain]
     api_key = params[:api_key]
