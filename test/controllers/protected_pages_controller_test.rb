@@ -7,7 +7,7 @@ class ProtectedPagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should redirect if user is not logged in" do
-    get protected_pages_show_url
+    get welcome_url
     assert_redirected_to login_url
   end
 end

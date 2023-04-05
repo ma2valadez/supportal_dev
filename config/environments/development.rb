@@ -45,6 +45,9 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  # Remove if uncessary !
+  config.assets.compile = true
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

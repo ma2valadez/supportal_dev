@@ -1,5 +1,6 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+// @import 'node_modules/@fortawesome/fontawesome-free/css/all.css';
 
 /* mixins, variables, etc. */
 
@@ -82,12 +83,6 @@ p {
     text-decoration: none;
   }
 }
-
-// #logo.span {
-//   text-transform: lowercase;
-// }
-
-/* footer */
 
 footer {
   border-top: 1px solid $gray-medium-light;
@@ -239,6 +234,130 @@ input {
   margin-left: 0;
 }
 
+.checkbox-label {
+  align-items: baseline;
+  max-width: 100%;
+  font-weight: 700;
+  margin-top: 5px;
+  margin-right: 5px;
+  display: inline-flex;
+  margin-bottom: 10px;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.icon-container {
+  display: inline-block;
+  top: -1px;
+  margin-right: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: lightblue;
+  text-align: center;
+  font-size: 9px;
+  line-height: 1;
+  cursor: default;
+  position: relative;
+}
+
+.icon-container:hover::after {
+  content: attr(data-tooltip);
+  white-space: pre-wrap;
+  position: absolute;
+  display: block;
+  top: calc(100% + 5px);
+  left: calc(50% - 25px);
+  padding: 5px;
+  background-color: #333;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 5px;
+  transform: translateX(-50%);
+}
+.icon-container:hover::after {
+  content: attr(data-tooltip);
+  white-space: pre-wrap;
+  position: absolute;
+  display: block;
+  top: calc(100% + 5px);
+  left: calc(50% - 25px);
+  padding: 5px;
+  background-color: #333;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 5px;
+  transform: translateX(-50%);
+  &:before {
+    content: '';
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+  }
+}
+.icon-container:hover::after {
+  content: attr(data-tooltip);
+  white-space: pre-wrap;
+  position: absolute;
+  display: block;
+  top: calc(100% + 5px);
+  left: calc(50% - 25px);
+  padding: 5px;
+  background-color: #333;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 5px;
+  transform: translateX(-50%);
+  &:before {
+    content: '';
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+  }
+  &:after {
+    content: attr(data-tooltip);
+    white-space: pre-wrap;
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    left: 0;
+    padding: 5px;
+    background-color: #333;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 5px;
+    transform: translate(-50%, -100%);
+    white-space: pre-wrap;
+    text-align: left;
+    width: auto;
+    max-width: 300px;
+    word-break: break-all;
+    word-wrap: break-word;
+    line-height: 1.5em;
+    &:before {
+      content: '';
+      display: block;
+      height: 0;
+      visibility: hidden;
+      clear: both;
+    }
+  }
+}
+
+.icon-container:hover [data-tooltip] {
+  display: none;
+}
+
+.icon-container i {
+  color: #000;
+  font-size: 8px;
+  font-weight: bold;
+}
+
 /* Dropdown menu */
 
 .dropdown-menu.active {
@@ -265,8 +384,12 @@ input {
   justify-content: center;
   align-items: center;
   height: 30vh;
-  flex-wrap: wrap; /* Add wrap */
-  flex-direction: row; /* Set default direction */
+  flex-wrap: wrap; 
+  flex-direction: row; 
+}
+
+.tiles-container.dynamic-scripts {
+  height: 90vh;
 }
 
 .tile {
@@ -315,6 +438,42 @@ input {
 
 #reporting {
   background-image: url('reporting.png');
+}
+
+#group-members {
+  background-image: url('group_members.png');
+}
+
+#get-targets {
+  background-image: url('get_targets.png');
+}
+
+#member-tags {
+  background-image: url('member_tags.png');
+}
+
+#suspend-members {
+  background-image: url('suspend_members.png');
+}
+
+#delete-targets {
+  background-image: url('delete_targets.png');
+}
+
+#delete-tags {
+  background-image: url('delete_tags.png');
+}
+
+#update-email {
+  background-image: url('update_emails.png');
+}
+
+#update-ssoid {
+  background-image: url('update_ssoids.png');
+}
+
+#update-target {
+  background-image: url('update_targets.png');
 }
 
 @media screen and (max-width: 600px) {

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <% provide(:title, 'Welcome') %>
 <h1>Which platform are we supporting today?</h1>
+<body class="welcome-tiles">
 <div class="tiles-container">
   <a href="#">
     <div class="tile" id="firstup">
@@ -9,7 +10,7 @@
       </div>
     </div>
   </a>
-  <a href="#">
+  <a href="<%= scripts_dynamic_path %>">
     <div class="tile" id="dynamic">
       <div class="overlay">
         <p>Dynamic Signal</p>
@@ -24,3 +25,4 @@
     </div>
   </a>
 </div>
+</body>
