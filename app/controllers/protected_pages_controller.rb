@@ -1,4 +1,5 @@
 require 'httparty'
+require 'csv'
 
 class ProtectedPagesController < ApplicationController
   before_action :logged_in_user
@@ -34,37 +35,42 @@ class ProtectedPagesController < ApplicationController
   
     url = "https://#{subdomain}.#{domain}/v1/manage/groups/#{id}/users"
     url += "?include=#{includes}" if includes.present?
+
+    headers = {
+      "Authorization": "Bearer #{api_key}",
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
     
-    response = HTTParty.get(url, headers: { "Authorization" => "Bearer #{api_key}" }, verify: false)
+    response = HTTParty.get(url, headers: headers, verify: true)
 
     if response.success?
       # Parse the JSON response into a hash
       parsed_response = JSON.parse(response.body)
 
       # Open a CSV file for writing and write the header row
-      CSV.open('users.csv', 'wb') do |csv|
+      csv_data = CSV.generate do |csv|
         csv << [:id, :display_name, :full_name, :first_name, :last_name, :status, :email, :sso_id]
 
         # Loop through each user and write a row to the CSV file
         parsed_response['users'].each do |user|
           csv << [user['id'], user['displayName'], user['fullName'], user['firstName'], user['lastName'], user['status'],
                   user['email'], user['externalSsoUserId']]
+          end
         end
-      end
 
+      # Set the flash message
       flash[:success] = "CSV file generated successfully!"
-      send_data csv_data, filename: "users.csv", type: "text/csv", disposition: "attachment", :layout => false
-      return
+    
+      # Set the Content-Disposition header to force the browser to download the file
+      headers['Content-Disposition'] = "attachment; filename=users.csv"
+
+      # Send the CSV data as a file download
+      send_data csv_data, type: 'text/csv; charset=utf-8; header=present', filename: 'users.csv', disposition: 'attachment', headers: headers
+
     else
       flash[:danger] = "There was an error generating the CSV file"
-      redirect_to scripts_dynamic_get_users_url
+      render :get_users
     end
-  # rescue StandardError => e
-  #   flash[:error] = "There was an error downloading user data: #{e.message}"
-  #   redirect_to scripts_dynamic_get_users_url
-  # end
+  end  
 end
-
-
-  
-

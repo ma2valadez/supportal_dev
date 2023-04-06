@@ -3,44 +3,44 @@
 <h1>Retrieve Users From Group ID</h1>
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_with url: "/protected_pages/download_users", method: :get do |form| %>
-    <p>
-      <%= label_tag :domain, 'Domain:' %>
-      <span class="icon-container" data-tooltip="'voicestorm.com' in most cases - refer to client sphere">
-        <i class="fas fa-info-circle"></i>
-        <i>?</i>
-      </span>
-      <%= text_field_tag :domain, 'voicestorm.com', class: 'form-control', required: true %>
-    </p>
+    <form action="/protected_pages/download_users" method="get" data-turbo="false">
+      <p>
+        <%= label_tag :domain, 'Domain:' %>
+        <span class="icon-container" data-tooltip="'voicestorm.com' in most cases - refer to client sphere">
+          <i class="fas fa-info-circle"></i>
+          <i>?</i>
+        </span>
+        <%= text_field_tag :domain, 'voicestorm.com', class: 'form-control', required: true %>
+      </p>
 
-    <p>
-      <%= label_tag :subdomain, 'Sub-Domain:' %>
-      <span class="icon-container" data-tooltip="replace with client sub-domain, e.g., https://{acme}.voicestorm.com">
-        <i class="fas fa-info-circle"></i>
-        <i>?</i>
-      </span>
-      <%= text_field_tag :subdomain, 'acme', class: 'form-control', required: true %>
-    </p>
+      <p>
+        <%= label_tag :subdomain, 'Sub-Domain:' %>
+        <span class="icon-container" data-tooltip="replace with client sub-domain, e.g., https://{acme}.voicestorm.com">
+          <i class="fas fa-info-circle"></i>
+          <i>?</i>
+        </span>
+        <%= text_field_tag :subdomain, 'acme', class: 'form-control', required: true %>
+      </p>
 
-    <p>
-      <%= label_tag :api_key, 'API Key:' %>
-      <span class="icon-container" data-tooltip="use bearer token generated at Admin > Advanced > API (Dynamic Signal)">
-        <i class="fas fa-info-circle"></i>
-        <i>?</i>
-      </span>
-      <%= text_field_tag :api_key, '', class: 'form-control', required: true %>
-    </p>
+      <p>
+        <%= label_tag :api_key, 'API Key:' %>
+        <span class="icon-container" data-tooltip="use bearer token generated at Admin > Advanced > API (Dynamic Signal)">
+          <i class="fas fa-info-circle"></i>
+          <i>?</i>
+        </span>
+        <%= text_field_tag :api_key, '', class: 'form-control', required: true %>
+      </p>
 
-    <p>
-      <%= label_tag :id, 'Group ID:' %>
-      <span class="icon-container" data-tooltip="group ID from the members page drop down, e.g., /manage/member/list/{id}">
-        <i class="fas fa-info-circle"></i>
-        <i>?</i>
-      </span>
-      <%= text_field_tag :id, '', class: 'form-control', required: true %>
-    </p>
+      <p>
+        <%= label_tag :id, 'Group ID:' %>
+        <span class="icon-container" data-tooltip="group ID from the members page drop down, e.g., /manage/member/list/{id}">
+          <i class="fas fa-info-circle"></i>
+          <i>?</i>
+        </span>
+        <%= text_field_tag :id, '', class: 'form-control', required: true %>
+      </p>
 
-    <p>Include:</p>
+      <p>Include:</p>
       <span class="icon-container" data-tooltip="Specify 'Channels' to return the the user's channels    'Images' to return the user's profile images      'Affiliations' to return the user's affiliations     'ScheduleSettings' to return the user's auto-scheduling preferences, if permissions allow.  If IDsOnly is selected, only user IDs will be returned. Other selections will be ignored.">
         <i class="fas fa-info-circle"></i>
         <i>?</i>
@@ -71,7 +71,12 @@
           <%= label_tag "includes[]", "IDsOnly", class: "checkbox-label" %>
         </div>
       </div>
-      <%= submit_tag "Download", class: "btn btn-primary" %>
+      <input type="submit" value="Submit">
+    </form>
+    <% if flash[:success].present? %>
+      <div id="success-message" class="alert alert-success" role="alert">
+        <%= flash[:success] %>
+      </div>
     <% end %>
   </div>
 </div>
