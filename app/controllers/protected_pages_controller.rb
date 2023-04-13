@@ -48,9 +48,12 @@ class ProtectedPagesController < ApplicationController
       # Parse the JSON response into a hash
       parsed_response = JSON.parse(response.body)
 
-      # Open a CSV file for writing and write the header row
-      csv_data = CSV.generate do |csv|
-        csv << [:id, :display_name, :full_name, :first_name, :last_name, :status, :email, :sso_id]
+      # Check if the parsed response contains 'users'
+      if parsed_response.key?('users')
+
+        # Open a CSV file for writing and write the header row
+        csv_data = CSV.generate do |csv|
+          csv << [:id, :display_name, :full_name, :first_name, :last_name, :status, :email, :sso_id]
 
         # Loop through each user and write a row to the CSV file
         parsed_response['users'].each do |user|
@@ -59,18 +62,34 @@ class ProtectedPagesController < ApplicationController
           end
         end
 
-      # Set the flash message
-      flash[:success] = "CSV file generated successfully!"
-    
-      # Set the Content-Disposition header to force the browser to download the file
-      headers['Content-Disposition'] = "attachment; filename=users.csv"
+        session[:csv_data] = csv_data
+        session[:id] = id
+        flash[:success] = "CSV file generated successfully!"
+        redirect_to download_complete_path
 
-      # Send the CSV data as a file download
-      send_data csv_data, type: 'text/csv; charset=utf-8; header=present', filename: 'users.csv', disposition: 'attachment', headers: headers
-
+      else
+        flash[:danger] = "The response was successful, but did not contain any users. Are you using the correct Group ID?"
+        redirect_to scripts_dynamic_get_users_url
+      end
     else
       flash[:danger] = "There was an error generating the CSV file"
-      render :get_users
+      redirect_to scripts_dynamic_get_users_url
     end
-  end  
+  end
+  
+  def download_complete
+
+    # Delete session data from download users method
+    csv_data = session.delete(:csv_data)
+    id = session.delete(:id)
+
+    # Set the filename based on the id and today's date
+    filename = "group_#{id}_users_#{Date.today.strftime('%Y-%m-%d')}.csv"
+
+    # Set the Content-Disposition header to force the browser to download the file
+    headers['Content-Disposition'] = "attachment; filename=#{filename}"
+
+    # Send the CSV data as a file download
+    send_data csv_data, type: 'text/csv; charset=utf-8; header=present', filename: filename, disposition: 'attachment', headers: headers
+  end
 end

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<% provide(:title, 'Suspend Users') %>
+<% if flash[:notice] %>
+  <div class="alert alert-success"><%= flash[:notice] %></div>
+<% end %>
+<h1>Suspend Users</h1>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <% form_with url: "/protected_pages/upload", method: :post, html: { "data-turbo": "false", enctype: "multipart/form-data" } do |form| %>
+                <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                <%= csrf_meta_tags %>
+            <p>
+                <%= label_tag :domain, 'Domain:' %>
+                <span class="icon-container" data-tooltip="'voicestorm.com' in most cases - refer to client sphere">
+                    <i class="fas fa-info-circle"></i>
+                    <i>?</i>
+                </span>
+                <%= text_field_tag :domain, 'voicestorm.com', class: 'form-control', required: true %>
+            </p>
+
+            <p>
+                <%= label_tag :subdomain, 'Sub-Domain:' %>
+                <span class="icon-container" data-tooltip="replace with client sub-domain, e.g., https://{acme}.voicestorm.com">
+                    <i class="fas fa-info-circle"></i>
+                    <i>?</i>
+                </span>
+                <%= text_field_tag :subdomain, 'acme', class: 'form-control', required: true %>
+            </p>
+
+            <p>
+                <%= label_tag :api_key, 'API Key:' %>
+                <span class="icon-container" data-tooltip="use bearer token generated at Admin > Advanced > API (Dynamic Signal)">
+                    <i class="fas fa-info-circle"></i>
+                    <i>?</i>
+                </span>
+                <%= text_field_tag :api_key, '', class: 'form-control', required: true %>
+            </p>
+            
+            <p>
+                <%= label_tag :file, 'Upload File:' %>
+                <%= file_field_tag :file, class: 'form-control' %>
+            </p>
+            
+            <%= submit_tag "Submit", name: nil, class: "btn btn-primary" %>
+        <% end %>
+    </div>
+</div>

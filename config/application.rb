@@ -21,6 +21,7 @@ module SupportalDev
 
     config.action_view.field_error_proc = Proc.new { |html_tag, instance| "#{html_tag}".html_safe }
     config.assets.enabled = true
+    config.action_controller.default_protect_from_forgery = true
 
   end
 end

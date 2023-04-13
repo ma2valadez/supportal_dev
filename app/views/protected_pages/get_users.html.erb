@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <% provide(:title, 'Get Users') %>
+<% if flash[:notice] %>
+  <div class="alert alert-success"><%= flash[:notice] %></div>
+<% end %>
 <h1>Retrieve Users From Group ID</h1>
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <form action="/protected_pages/download_users" method="get" data-turbo="false">
+    <%= form_with url: "/protected_pages/download_users", method: :get, html: { "data-turbo": "false" } do |form| %>
       <p>
         <%= label_tag :domain, 'Domain:' %>
         <span class="icon-container" data-tooltip="'voicestorm.com' in most cases - refer to client sphere">
@@ -71,7 +74,7 @@
           <%= label_tag "includes[]", "IDsOnly", class: "checkbox-label" %>
         </div>
       </div>
-      <input type="submit" value="Submit">
-    </form>
+      <%= submit_tag "Submit", name: nil, class: "btn btn-primary" %>
+    <% end %>
   </div>
 </div>
