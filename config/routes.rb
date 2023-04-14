@@ -16,12 +16,12 @@ Rails.application.routes.draw do
   get    "/scripts/dynamic",                     to: "protected_pages#dynamic"
   
   get    "scripts/dynamic/get_users",            to: "protected_pages#get_users"
-  get    "/protected_pages/download_users",      to: "protected_pages#download_users"
+  get    "scripts/dynamic/download_users",       to: "protected_pages#download_users"
   get    "download_complete",                    to: "protected_pages#download_complete", as: "download_complete"
 
   get    "scripts/dynamic/suspend_users",        to: "protected_pages#suspend_users"
-  get    "/protected_pages/suspend_users",       to: "protected_pages#upload"
-  post   "/suspend/upload",                      to: "suspend#upload", as: "suspend_upload"
+  # get    "/protected_pages/suspend_users",       to: "protected_pages#upload"
+  post   "scripts/dynamic/suspend_users",        to: "suspend_users#upload", as: "suspend_upload"
 
   post   "/login",                               to: "sessions#create"
   delete "/logout",                              to: "sessions#destroy"

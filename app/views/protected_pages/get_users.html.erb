@@ -6,7 +6,7 @@
 <h1>Retrieve Users From Group ID</h1>
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_with url: "/protected_pages/download_users", method: :get, html: { "data-turbo": "false" } do |form| %>
+    <%= form_with url: scripts_dynamic_download_users_path, method: :get, html: { "data-turbo": "false" } do |form| %>
       <p>
         <%= label_tag :domain, 'Domain:' %>
         <span class="icon-container" data-tooltip="'voicestorm.com' in most cases - refer to client sphere">
@@ -74,7 +74,7 @@
           <%= label_tag "includes[]", "IDsOnly", class: "checkbox-label" %>
         </div>
       </div>
-      <%= submit_tag "Submit", name: nil, class: "btn btn-primary" %>
+      <%= submit_tag "Submit", name: nil, class: "btn btn-primary", target: "_blank" %>
     <% end %>
   </div>
 </div>
