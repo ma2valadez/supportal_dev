@@ -388,7 +388,7 @@ input {
   flex-direction: row; 
 }
 
-.tiles-container.dynamic-scripts {
+.tiles-container.scripts {
   height: 90vh;
 }
 
@@ -474,6 +474,30 @@ input {
 
 #update-target {
   background-image: url('update_targets.png');
+}
+
+#remove-users {
+  background-image: url('remove_users.png');
+}
+
+#forget-users {
+  background-image: url('forget_users.png');
+}
+
+#get-groups {
+  background-image: url('get_groups.png');
+}
+
+#program-members {
+  background-image: url('program_members.png');
+}
+
+#user-groups {
+  background-image: url('user_groups.png');
+}
+
+#delete-groups {
+  background-image: url('delete_groups.png');
 }
 
 @media screen and (max-width: 600px) {

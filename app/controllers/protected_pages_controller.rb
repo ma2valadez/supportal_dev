@@ -11,7 +11,10 @@ class ProtectedPagesController < ApplicationController
   end
 
   def get_users
-    @endpoints = ['Affiliations', 'Channels', 'Images', 'ScheduleSettings', 'idsOnly']
+    # @endpoints = ['Affiliations', 'Channels', 'Images', 'ScheduleSettings', 'idsOnly']
+  end
+
+  def get_firstup_users
   end
 
   def download_users
@@ -76,6 +79,73 @@ class ProtectedPagesController < ApplicationController
       redirect_to scripts_dynamic_get_users_url
     end
   end
+
+  def firstup_download_users
+    # Get client_id and client_secret from the form data
+    client_id = params[:client_id]
+    client_secret = params[:client_secret]
+
+    # Make a request to the token endpoint to get an access token
+    token_response = HTTParty.post('https://auth.socialchorus.com/oauth/token',
+      body: {
+        grant_type: 'client_credentials',
+        client_id: client_id,
+        client_secret: client_secret
+      })
+
+    # Check if the access token was generated successfully
+    if token_response.code == 200
+      # Parse the response to get the access token
+      access_token = token_response.parsed_response['access_token']
+      program_id = token_response.parsed_response['realm']
+
+      # Make a request to the user data endpoint with the access token
+      user_response = HTTParty.get('https://partner.socialchorus.com/scim/v2/Users',
+        headers: {
+          'Authorization' => "Bearer #{access_token}"
+        })
+
+      # Check if the user data was fetched successfully
+      if user_response.code == 200
+        # Parse the user data and save it to CSV
+        users = user_response.parsed_response['Resources']
+        csv_data = CSV.generate do |csv|
+          csv << ['Associate ID', 'User Name', 'External ID', 'Email', 'Roles', 'First Name', 'Last Name', 'Display Name']
+          users.each do |user|
+            # Check if the required fields are present
+            if user.key?('id') && user.key?('userName') && user.key?('name') && user['name'].key?('givenName') && user['name'].key?('familyName') && user.key?('displayName')
+              # Get the values of the fields
+              id = user['id']
+              user_name = user['userName']
+              external_id = user['externalId'] || ''
+              email = user['emails'][0]['value'] if user['emails'].present?
+              role = user['roles'][0]['value'] if user['roles'].present?
+              given_name = user['name']['givenName']
+              family_name = user['name']['familyName']
+              display_name = user['displayName']
+
+              # Add the values to the CSV row
+              csv << [id, user_name, external_id, email, role, given_name, family_name, display_name]
+            end
+          end
+        end
+
+        # Send the CSV as a file download
+        session[:csv_data] = csv_data
+        session[:program_id] = program_id
+        flash[:success] = "CSV file generated successfully!"
+        redirect_to firstup_download_complete_path
+      else
+        # Render an error message
+        flash[:danger] = "Error fetching user data: #{response.code} #{response.message}"
+        redirect_to scripts_firstup_get_users_url
+      end
+    else
+      # Render an error message
+      flash[:danger] = "Error generating access token: #{response.code} #{response.message}"
+      redirect_to scripts_firstup_get_users_url
+    end
+  end
   
   def download_complete
 
@@ -85,6 +155,22 @@ class ProtectedPagesController < ApplicationController
 
     # Set the filename based on the id and today's date
     filename = "group_#{id}_users_#{Date.today.strftime('%Y-%m-%d')}.csv"
+
+    # Set the Content-Disposition header to force the browser to download the file
+    headers['Content-Disposition'] = "attachment; filename=#{filename}"
+
+    # Send the CSV data as a file download
+    send_data csv_data, type: 'text/csv; charset=utf-8; header=present', filename: filename, disposition: 'attachment', headers: headers
+  end
+
+  def firstup_download_complete
+
+    # Delete session data from download users method
+    csv_data = session.delete(:csv_data)
+    program_id = session.delete(:program_id)
+
+    # Set the filename based on the id and today's date
+    filename = "#{program_id}_users_#{Date.today.strftime('%Y-%m-%d')}.csv"
 
     # Set the Content-Disposition header to force the browser to download the file
     headers['Content-Disposition'] = "attachment; filename=#{filename}"

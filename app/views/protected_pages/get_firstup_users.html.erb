@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<% provide(:title, 'Get Users') %>
+<% if flash[:notice] %>
+  <div class="alert alert-success"><%= flash[:notice] %></div>
+<% end %>
+<h1>Retrieve Users From Program</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_with url: scripts_firstup_download_users_path, method: :get, html: { "data-turbo": "false" } do |form| %>
+      <p>
+        <%= label_tag :client_id, 'Client ID:' %>
+        <span class="icon-container" data-tooltip="Generate from IAM Admin Console">
+          <i class="fas fa-info-circle"></i>
+          <i>?</i>
+        </span>
+        <%= text_field_tag :subdomain, '', class: 'form-control', required: true %>
+      </p>
+      <p>
+        <%= label_tag :client_secret, 'Client Secret:' %>
+        <span class="icon-container" data-tooltip="Generate from IAM Admin Console">
+          <i class="fas fa-info-circle"></i>
+          <i>?</i>
+        </span>
+        <%= text_field_tag :api_key, '', class: 'form-control', required: true %>
+      </p>
+      <%= submit_tag "Submit", name: nil, class: "btn btn-primary", target: "_blank" %>
+    <% end %>
+  </div>
+</div>
