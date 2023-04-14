@@ -84,7 +84,7 @@ class ProtectedPagesController < ApplicationController
     # Get client_id and client_secret from the form data
     client_id = params[:client_id]
     client_secret = params[:client_secret]
-
+  
     # Make a request to the token endpoint to get an access token
     token_response = HTTParty.post('https://auth.socialchorus.com/oauth/token',
       body: {
@@ -92,19 +92,21 @@ class ProtectedPagesController < ApplicationController
         client_id: client_id,
         client_secret: client_secret
       })
-
+  
     # Check if the access token was generated successfully
     if token_response.code == 200
       # Parse the response to get the access token
       access_token = token_response.parsed_response['access_token']
       program_id = token_response.parsed_response['realm']
-
+  
       # Make a request to the user data endpoint with the access token
       user_response = HTTParty.get('https://partner.socialchorus.com/scim/v2/Users',
         headers: {
           'Authorization' => "Bearer #{access_token}"
-        })
-
+        },
+        format: :json # Add this line to indicate that the response should be in JSON format
+      )
+  
       # Check if the user data was fetched successfully
       if user_response.code == 200
         # Parse the user data and save it to CSV
@@ -123,13 +125,13 @@ class ProtectedPagesController < ApplicationController
               given_name = user['name']['givenName']
               family_name = user['name']['familyName']
               display_name = user['displayName']
-
+      
               # Add the values to the CSV row
               csv << [id, user_name, external_id, email, role, given_name, family_name, display_name]
             end
           end
         end
-
+  
         # Send the CSV as a file download
         session[:csv_data] = csv_data
         session[:program_id] = program_id
@@ -137,12 +139,12 @@ class ProtectedPagesController < ApplicationController
         redirect_to firstup_download_complete_path
       else
         # Render an error message
-        flash[:danger] = "Error fetching user data: #{response.code} #{response.message}"
+        flash[:danger] = "Error fetching user data: #{user_response.code} #{user_response.message}"
         redirect_to scripts_firstup_get_users_url
       end
     else
       # Render an error message
-      flash[:danger] = "Error generating access token: #{response.code} #{response.message}"
+      flash[:danger] = "Error generating access token: #{token_response.code} #{token_response.message}"
       redirect_to scripts_firstup_get_users_url
     end
   end
