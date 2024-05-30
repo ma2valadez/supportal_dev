@@ -86,7 +86,7 @@ class ProtectedPagesController < ApplicationController
     client_secret = params[:client_secret]
   
     # Make a request to the token endpoint to get an access token
-    token_response = HTTParty.post('https://auth.socialchorus.com/oauth/token',
+    token_response = HTTParty.post('https://{subdomain}.{domain}.com/oauth/token',
       body: {
         grant_type: 'client_credentials',
         client_id: client_id,
@@ -100,7 +100,7 @@ class ProtectedPagesController < ApplicationController
       program_id = token_response.parsed_response['realm']
   
       # Make a request to the user data endpoint with the access token
-      user_response = HTTParty.get('https://partner.socialchorus.com/scim/v2/Users',
+      user_response = HTTParty.get('https://{subdomain}.{domain}.com/scim/v2/Users',
         headers: {
           'Authorization' => "Bearer #{access_token}"
         },
